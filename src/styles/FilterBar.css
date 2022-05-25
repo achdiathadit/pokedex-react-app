@@ -1,0 +1,48 @@
+html {
+	--filterHeading: #000;
+	--selectBg: #fff;
+	--selectText: #000;
+}
+
+.filter-container {
+	display: flex;
+	flex-direction: row;
+	margin: 7vh 0 5vh 0;
+	gap: 0 2vw;
+}
+
+.filter-items {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-family: 'IBM Plex Sans', sans-serif;
+	font-size: 12px;
+}
+
+.filter-items > input {
+	width: 10vw;
+	margin-top: 5px;
+	background-color: var(--selectBg);
+	color: var(--selectText);
+	border: 1px solid var(--selectText);
+}
+
+.filter-items > div,
+label {
+	color: var(--filterHeading);
+}
+
+@media screen and (max-width: 767px) {
+	.filter-container {
+		display: flex;
+		flex-direction: column;
+		width: 100vw;
+		align-items: center;
+		margin: 7vh 0 5vh 0;
+		gap: 2vh 2vw;
+		justify-content: center;
+	}
+	.filter-items > input {
+		width: 40vw;
+	}
+}
