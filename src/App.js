@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import axios from 'axios';
 import FilterBar from './components/FilterBar';
@@ -5,7 +6,30 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import PokeCard from './components/PokeCard';
 import PokeDetail from './components/PokeDetail';
+import { motion } from 'framer-motion';
 import './index.css';
+
+const list = {
+	visible: {
+		opacity: 1,
+		transition: {
+			when: 'beforeChildren',
+			staggerChildren: 0.35,
+			delayChildren: 0.75,
+		},
+	},
+	hidden: {
+		opacity: 0,
+		transition: {
+			when: 'afterChildren',
+		},
+	},
+};
+
+const items = {
+	visible: { opacity: 1, x: 0 },
+	hidden: { opacity: 0, x: -150 },
+};
 
 export class App extends Component {
 	constructor(props) {
@@ -259,8 +283,18 @@ export class App extends Component {
 
 	render() {
 		console.log('state: ', this.state);
-		const { regionValue, regions, typeValue, types, sortBy, sortType } =
-			this.state;
+		const {
+			regionValue,
+			regions,
+			typeValue,
+			types,
+			sortBy,
+			sortType,
+			filterPokemons,
+			searchPokemons,
+			allPokemons,
+			isSearch,
+		} = this.state;
 		return (
 			<div className='app-container'>
 				<PokeDetail />
@@ -276,7 +310,118 @@ export class App extends Component {
 					sortType={sortType}
 					sortSelect={this.handleChangeSort}
 				/>
-				<PokeCard />
+				<div className='pokemon-container'>
+					<div className='all-pokemons'>
+						{isSearch ? (
+							Object.keys(searchPokemons).map((item) => (
+								<PokeCard
+									key={searchPokemons[item].id}
+									id={searchPokemons[item].id}
+									image={
+										searchPokemons[item].sprites.other.dream_world.front_default
+											? searchPokemons[item].sprites.other.dream_world
+													.front_default
+											: searchPokemons[item].sprites.other['official-artwork']
+													.front_default
+									}
+									name={searchPokemons[item].name}
+									type={searchPokemons[item].types}
+									onElemClick={() =>
+										this.fetchPokemonData(
+											searchPokemons[item].id,
+											searchPokemons[item].name,
+											searchPokemons[item].types,
+											searchPokemons[item].sprites.other.dream_world
+												.front_default
+												? searchPokemons[item].sprites.other.dream_world
+														.front_default
+												: searchPokemons[item].sprites.other['official-artwork']
+														.front_default
+										)
+									}
+								/>
+							))
+						) : !this.state.isFilter ? (
+							<motion.ul
+								style={{
+									display: 'flex',
+									flexWrap: 'wrap',
+									listStyleType: 'none',
+									paddingInlineStart: '0px',
+									marginBlockStart: '0px',
+									marginBlockEnd: '0px',
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}
+								initial='hidden'
+								animate='visible'
+								variants={list}
+							>
+								{Object.keys(allPokemons).map((item) => (
+									<motion.li variants={items}>
+										<PokeCard
+											key={allPokemons[item].id}
+											id={allPokemons[item].id}
+											image={
+												allPokemons[item].sprites.other.dream_world
+													.front_default
+													? allPokemons[item].sprites.other.dream_world
+															.front_default
+													: allPokemons[item].sprites.other['official-artwork']
+															.front_default
+											}
+											name={allPokemons[item].name}
+											type={allPokemons[item].types}
+											onElemClick={() =>
+												this.fetchPokemonData(
+													allPokemons[item].id,
+													allPokemons[item].name,
+													allPokemons[item].types,
+													allPokemons[item].sprites.other.dream_world
+														.front_default
+														? allPokemons[item].sprites.other.dream_world
+																.front_default
+														: allPokemons[item].sprites.other[
+																'official-artwork'
+														  ].front_default
+												)
+											}
+										/>
+									</motion.li>
+								))}
+							</motion.ul>
+						) : (
+							Object.keys(filterPokemons).map((item) => (
+								<PokeCard
+									key={filterPokemons[item].id}
+									id={filterPokemons[item].id}
+									image={
+										filterPokemons[item].sprites.other.dream_world.front_default
+											? filterPokemons[item].sprites.other.dream_world
+													.front_default
+											: filterPokemons[item].sprites.other['official-artwork']
+													.front_default
+									}
+									name={filterPokemons[item].name}
+									type={filterPokemons[item].types}
+									onElemClick={() =>
+										this.fetchPokemonData(
+											filterPokemons[item].id,
+											filterPokemons[item].name,
+											filterPokemons[item].types,
+											filterPokemons[item].sprites.other.dream_world
+												.front_default
+												? filterPokemons[item].sprites.other.dream_world
+														.front_default
+												: filterPokemons[item].sprites.other['official-artwork']
+														.front_default
+										)
+									}
+								/>
+							))
+						)}
+					</div>
+				</div>
 				<Footer />
 			</div>
 		);
