@@ -234,9 +234,33 @@ export class App extends Component {
 			: this.setState({ noDataFound: false });
 	};
 
+	handleChangeSort = (event) => {
+		const { filterPokemons, allPokemons, isFilter } = this.state;
+		let sortArr;
+
+		isFilter ? (sortArr = filterPokemons) : (sortArr = allPokemons);
+
+		if (event.target.value === 'ID') {
+			sortArr.sort((a, b) => (a.id > b.id ? 1 : b.id > a.id ? -1 : 0));
+		} else {
+			sortArr.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
+		}
+
+		isFilter
+			? this.setState({
+					filterPokemons: sortArr,
+					sortType: event.target.value,
+			  })
+			: this.setState({
+					allPokemons: sortArr,
+					sortType: event.target.value,
+			  });
+	};
+
 	render() {
 		console.log('state: ', this.state);
-		const { regionValue, regions, typeValue, types } = this.state;
+		const { regionValue, regions, typeValue, types, sortBy, sortType } =
+			this.state;
 		return (
 			<div className='app-container'>
 				<PokeDetail />
@@ -248,6 +272,9 @@ export class App extends Component {
 					typeValue={typeValue}
 					typeSelect={this.handleChangeType}
 					types={types}
+					sortBy={sortBy}
+					sortType={sortType}
+					sortSelect={this.handleChangeSort}
 				/>
 				<PokeCard />
 				<Footer />

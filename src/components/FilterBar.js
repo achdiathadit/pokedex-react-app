@@ -2,19 +2,35 @@
 import React, { Component } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 import Autocomplete from '@mui/material/Autocomplete';
 import '../styles/FilterBar.css';
 
 export class FilterBar extends Component {
 	render() {
-		const { regionValue, regionSelect, regions, typeValue, typeSelect, types } =
-			this.props;
+		const {
+			regionValue,
+			regionSelect,
+			regions,
+			typeValue,
+			typeSelect,
+			types,
+			sortBy,
+			sortType,
+			sortSelect,
+		} = this.props;
 		return (
-			<div className='filter-container noselect'>
-				<div className='filter-items'>
+			<Box
+				component='form'
+				sx={{
+					'& .MuiTextField-root': { m: 1, width: '25ch' },
+				}}
+				noValidate
+				autoComplete='off'
+			>
+				<div className='filter-container'>
 					<Autocomplete
 						id='region-select'
-						sx={{ width: 300 }}
 						size='small'
 						options={regions}
 						value={regionValue}
@@ -36,11 +52,8 @@ export class FilterBar extends Component {
 							/>
 						)}
 					/>
-				</div>
-				<div className='filter-items'>
 					<Autocomplete
 						id='type-select'
-						sx={{ width: 300 }}
 						size='small'
 						options={types}
 						value={typeValue}
@@ -61,8 +74,36 @@ export class FilterBar extends Component {
 							/>
 						)}
 					/>
+					<Autocomplete
+						id='sort-by'
+						size='small'
+						options={sortBy}
+						value={sortType}
+						onChange={sortSelect}
+						getOptionLabel={(sortBy) => sortBy}
+						renderOption={(props, sortBy) => (
+							<Box component='li' {...props}>
+								{sortBy}
+							</Box>
+						)}
+						renderInput={(params) => (
+							<TextField
+								{...params}
+								label='Sort by'
+								inputProps={{
+									...params.inputProps,
+								}}
+							/>
+						)}
+					/>
+					<TextField
+						id='search-name'
+						size='small'
+						label='Search'
+						variant='outlined'
+					/>
 				</div>
-			</div>
+			</Box>
 		);
 	}
 }
