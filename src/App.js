@@ -27,8 +27,8 @@ const list = {
 };
 
 const items = {
-	visible: { opacity: 1, x: 0 },
-	hidden: { opacity: 0, x: -150 },
+	visible: { opacity: 1, y: 0 },
+	hidden: { opacity: 0, y: 150 },
 };
 
 export class App extends Component {
@@ -150,12 +150,11 @@ export class App extends Component {
 			filterArr = [];
 
 		await Promise.all(
-			result.map((pokemonItem) => {
-				return axios
-					.get(`https://pokeapi.co/api/v2/pokemon/${pokemonItem.name}`)
-					.then((result) => {
-						pokemonArr.push(result.data);
-					});
+			result.map(async (pokemonItem) => {
+				const result = await axios.get(
+					`https://pokeapi.co/api/v2/pokemon/${pokemonItem.name}`
+				);
+				pokemonArr.push(result.data);
 			})
 		);
 
