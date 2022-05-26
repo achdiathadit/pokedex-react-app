@@ -132,6 +132,11 @@ export class App extends Component {
 		};
 	}
 
+	componentDidMount() {
+		const { offset, limit } = this.state;
+		this.getAllPokemons(offset, limit);
+	}
+
 	getAllPokemons = async (offset, limit) => {
 		const response = await axios
 			.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`)
@@ -294,6 +299,7 @@ export class App extends Component {
 			searchPokemons,
 			allPokemons,
 			isSearch,
+			isFilter,
 		} = this.state;
 		return (
 			<div className='app-container'>
@@ -341,7 +347,7 @@ export class App extends Component {
 									}
 								/>
 							))
-						) : !this.state.isFilter ? (
+						) : !isFilter ? (
 							<motion.ul
 								style={{
 									display: 'flex',
