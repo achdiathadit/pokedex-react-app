@@ -469,107 +469,96 @@ export class App extends Component {
 			evoChain,
 		} = this.state;
 		return (
-			<div className='app-container'>
-				{showDetail && (
-					<PokeDetail
-						open={showDetail}
-						abilities={abilities}
-						height={height}
-						weight={weight}
-						category={category}
-						genera={genera}
-						genderRate={genderRate}
-						stats={stats}
-						img={imageURL}
-						name={pokeName}
-						number={pokeNumber}
-						description={description}
-						evoChain={evoChain}
-						cancel={() => this.closeDialog()}
-						evolutionPokemon={this.fetchPokemonData}
-					></PokeDetail>
-				)}
-				<Header />
-				<FilterBar
-					regionValue={regionValue}
-					regionSelect={this.handleChangeRegion}
-					regions={regions}
-					typeValue={typeValue}
-					typeSelect={this.handleChangeType}
-					types={types}
-					sortBy={sortBy}
-					sortType={sortType}
-					sortSelect={this.handleChangeSort}
-					searchValue={searchValue}
-					searchChange={this.handleChangeSearch}
-				/>
-				<div className='pokemon-container'>
-					<div className='all-pokemons'>
-						{isSearch ? (
-							Object.keys(searchPokemons).map((item) => (
-								<PokeCard
-									key={searchPokemons[item].id}
-									id={searchPokemons[item].id}
-									image={
-										searchPokemons[item].sprites.other.dream_world.front_default
-											? searchPokemons[item].sprites.other.dream_world
-													.front_default
-											: searchPokemons[item].sprites.other['official-artwork']
-													.front_default
-									}
-									name={searchPokemons[item].name}
-									type={searchPokemons[item].types}
-									onElemClick={() =>
-										this.fetchPokemonData(
-											searchPokemons[item].id,
-											searchPokemons[item].name,
-											searchPokemons[item].types,
+			<>
+				<div className='app-container'>
+					{showDetail && (
+						<PokeDetail
+							open={showDetail}
+							abilities={abilities}
+							height={height}
+							weight={weight}
+							category={category}
+							genera={genera}
+							genderRate={genderRate}
+							stats={stats}
+							img={imageURL}
+							name={pokeName}
+							number={pokeNumber}
+							description={description}
+							evoChain={evoChain}
+							cancel={() => this.closeDialog()}
+							evolutionPokemon={this.fetchPokemonData}
+						></PokeDetail>
+					)}
+					<Header />
+					<FilterBar
+						regionValue={regionValue}
+						regionSelect={this.handleChangeRegion}
+						regions={regions}
+						typeValue={typeValue}
+						typeSelect={this.handleChangeType}
+						types={types}
+						sortBy={sortBy}
+						sortType={sortType}
+						sortSelect={this.handleChangeSort}
+						searchValue={searchValue}
+						searchChange={this.handleChangeSearch}
+					/>
+					<div className='pokemon-container'>
+						<div className='all-pokemons'>
+							{isSearch ? (
+								Object.keys(searchPokemons).map((item) => (
+									<PokeCard
+										key={searchPokemons[item].id}
+										id={searchPokemons[item].id}
+										image={
 											searchPokemons[item].sprites.other.dream_world
 												.front_default
 												? searchPokemons[item].sprites.other.dream_world
 														.front_default
 												: searchPokemons[item].sprites.other['official-artwork']
 														.front_default
-										)
-									}
-								/>
-							))
-						) : !isFilter ? (
-							<motion.ul
-								style={{
-									display: 'flex',
-									flexWrap: 'wrap',
-									listStyleType: 'none',
-									paddingInlineStart: '0px',
-									marginBlockStart: '0px',
-									marginBlockEnd: '0px',
-									alignItems: 'center',
-									justifyContent: 'center',
-								}}
-								initial='hidden'
-								animate='visible'
-								variants={list}
-							>
-								{Object.keys(allPokemons).map((item) => (
-									<motion.li variants={items}>
-										<PokeCard
-											key={allPokemons[item].id}
-											id={allPokemons[item].id}
-											image={
-												allPokemons[item].sprites.other.dream_world
+										}
+										name={searchPokemons[item].name}
+										type={searchPokemons[item].types}
+										onElemClick={() =>
+											this.fetchPokemonData(
+												searchPokemons[item].id,
+												searchPokemons[item].name,
+												searchPokemons[item].types,
+												searchPokemons[item].sprites.other.dream_world
 													.front_default
-													? allPokemons[item].sprites.other.dream_world
+													? searchPokemons[item].sprites.other.dream_world
 															.front_default
-													: allPokemons[item].sprites.other['official-artwork']
-															.front_default
-											}
-											name={allPokemons[item].name}
-											type={allPokemons[item].types}
-											onElemClick={() =>
-												this.fetchPokemonData(
-													allPokemons[item].id,
-													allPokemons[item].name,
-													allPokemons[item].types,
+													: searchPokemons[item].sprites.other[
+															'official-artwork'
+													  ].front_default
+											)
+										}
+									/>
+								))
+							) : !isFilter ? (
+								<motion.ul
+									style={{
+										display: 'flex',
+										flexWrap: 'wrap',
+										listStyleType: 'none',
+										paddingInlineStart: '0px',
+										marginBlockStart: '0px',
+										marginBlockEnd: '0px',
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}
+									initial='hidden'
+									animate='visible'
+									variants={list}
+								>
+									{Object.keys(allPokemons).map((item) => (
+										<motion.li variants={items}>
+											<PokeCard
+												key={allPokemons[item].id}
+												id={allPokemons[item].id}
+												image={
 													allPokemons[item].sprites.other.dream_world
 														.front_default
 														? allPokemons[item].sprites.other.dream_world
@@ -577,49 +566,67 @@ export class App extends Component {
 														: allPokemons[item].sprites.other[
 																'official-artwork'
 														  ].front_default
-												)
-											}
-										/>
-									</motion.li>
-								))}
-							</motion.ul>
-						) : (
-							Object.keys(filterPokemons).map((item) => (
-								<PokeCard
-									key={filterPokemons[item].id}
-									id={filterPokemons[item].id}
-									image={
-										filterPokemons[item].sprites.other.dream_world.front_default
-											? filterPokemons[item].sprites.other.dream_world
-													.front_default
-											: filterPokemons[item].sprites.other['official-artwork']
-													.front_default
-									}
-									name={filterPokemons[item].name}
-									type={filterPokemons[item].types}
-									onElemClick={() =>
-										this.fetchPokemonData(
-											filterPokemons[item].id,
-											filterPokemons[item].name,
-											filterPokemons[item].types,
+												}
+												name={allPokemons[item].name}
+												type={allPokemons[item].types}
+												onElemClick={() =>
+													this.fetchPokemonData(
+														allPokemons[item].id,
+														allPokemons[item].name,
+														allPokemons[item].types,
+														allPokemons[item].sprites.other.dream_world
+															.front_default
+															? allPokemons[item].sprites.other.dream_world
+																	.front_default
+															: allPokemons[item].sprites.other[
+																	'official-artwork'
+															  ].front_default
+													)
+												}
+											/>
+										</motion.li>
+									))}
+								</motion.ul>
+							) : (
+								Object.keys(filterPokemons).map((item) => (
+									<PokeCard
+										key={filterPokemons[item].id}
+										id={filterPokemons[item].id}
+										image={
 											filterPokemons[item].sprites.other.dream_world
 												.front_default
 												? filterPokemons[item].sprites.other.dream_world
 														.front_default
 												: filterPokemons[item].sprites.other['official-artwork']
 														.front_default
-										)
-									}
-								/>
-							))
-						)}
+										}
+										name={filterPokemons[item].name}
+										type={filterPokemons[item].types}
+										onElemClick={() =>
+											this.fetchPokemonData(
+												filterPokemons[item].id,
+												filterPokemons[item].name,
+												filterPokemons[item].types,
+												filterPokemons[item].sprites.other.dream_world
+													.front_default
+													? filterPokemons[item].sprites.other.dream_world
+															.front_default
+													: filterPokemons[item].sprites.other[
+															'official-artwork'
+													  ].front_default
+											)
+										}
+									/>
+								))
+							)}
+						</div>
 					</div>
+					{noDataFound && (
+						<div className='no-data'>No such Pokémon in this region :/</div>
+					)}
+					<Footer />
 				</div>
-				{noDataFound && (
-					<div className='no-data'>No such Pokémon in this region :/</div>
-				)}
-				<Footer />
-			</div>
+			</>
 		);
 	}
 }

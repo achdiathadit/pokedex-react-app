@@ -23,3 +23,17 @@ body {
 	text-align: center;
 	color: var(--colorPrimary);
 }
+
+.pokemon-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.all-pokemons {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+}
