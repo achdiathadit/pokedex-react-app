@@ -51,7 +51,7 @@ export class App extends Component {
 			genera: '',
 			isTypeSelected: false,
 			selectedType: '',
-			showInfo: false,
+			showDetail: false,
 			isSearch: false,
 			searchString: '',
 			description: '',
@@ -185,7 +185,7 @@ export class App extends Component {
 
 	closeDialog = () => {
 		this.setState({
-			showInfo: false,
+			showDetail: false,
 		});
 	};
 
@@ -231,6 +231,7 @@ export class App extends Component {
 	};
 
 	fetchPokemonData = async (number, pokemon, category, imageURL) => {
+		console.log('click fetch');
 		const response = await axios
 			.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
 			.catch((err) => console.log('Error:', err));
@@ -257,7 +258,7 @@ export class App extends Component {
 			pokeNumber: id,
 			imageURL,
 			pokeName: pokemon,
-			showInfo: true,
+			showDetail: true,
 			stats: statistics,
 			abilities: abs,
 		});
@@ -423,7 +424,8 @@ export class App extends Component {
 			allPokemons,
 			isSearch,
 			isFilter,
-			showInfo,
+			showDetail,
+			noDataFound,
 			abilities,
 			height,
 			weight,
@@ -439,9 +441,9 @@ export class App extends Component {
 		} = this.state;
 		return (
 			<div className='app-container'>
-				{this.state.showInfo && (
+				{showDetail && (
 					<PokeDetail
-						open={showInfo}
+						open={showDetail}
 						abilities={abilities}
 						height={height}
 						weight={weight}
@@ -582,6 +584,9 @@ export class App extends Component {
 						)}
 					</div>
 				</div>
+				{noDataFound && (
+					<div className='no-data'>No such Pokémon in this region :/</div>
+				)}
 				<Footer />
 			</div>
 		);

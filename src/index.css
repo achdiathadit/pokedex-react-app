@@ -1,5 +1,11 @@
+html {
+	--bgcolor: none;
+	--colorPrimary: #000;
+}
+
 body {
 	margin: 0;
+	background-color: var(--bgcolor);
 	font-family: 'IBM Plex Sans', sans-serif;
 }
 
@@ -9,4 +15,11 @@ body {
 	align-items: center;
 	justify-content: center;
 	min-height: 100vh;
+}
+
+.no-data {
+	font-family: 'IBM Plex Sans', sans-serif;
+	font-size: 10px;
+	text-align: center;
+	color: var(--colorPrimary);
 }
