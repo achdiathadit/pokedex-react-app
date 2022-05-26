@@ -231,7 +231,6 @@ export class App extends Component {
 	};
 
 	fetchPokemonData = async (number, pokemon, category, imageURL) => {
-		console.log('click fetch');
 		const response = await axios
 			.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
 			.catch((err) => console.log('Error:', err));
@@ -272,7 +271,6 @@ export class App extends Component {
 	};
 
 	fetchPokemonDescription = async (pokemon_name) => {
-		const { description } = this.state;
 		let genera = '';
 
 		const response = await axios
@@ -297,7 +295,7 @@ export class App extends Component {
 			}
 
 			this.setState({
-				description: description,
+				description: this.state.description,
 				genderRate: response.data.gender_rate,
 				genera,
 			});
@@ -410,8 +408,38 @@ export class App extends Component {
 			  });
 	};
 
+	handleChangeSearch = (event) => {
+		const { allPokemons } = this.state;
+
+		event.target.value.length > 0
+			? this.setState({
+					isSearch: true,
+					typeValue: 'all types',
+					searchValue: event.target.value,
+			  })
+			: this.setState({
+					isSearch: false,
+					isFilter: false,
+					searchValue: event.target.value,
+			  });
+
+		let searchArr = [];
+
+		for (let i = 0; i < allPokemons.length; i++) {
+			if (
+				allPokemons[i].name.includes(event.target.value.toLowerCase()) ||
+				allPokemons[i].id.toString().includes(event.target.value)
+			) {
+				searchArr.push(allPokemons[i]);
+			}
+		}
+
+		searchArr.length === 0
+			? this.setState({ noDataFound: true, searchPokemons: [] })
+			: this.setState({ noDataFound: false, searchPokemons: searchArr });
+	};
+
 	render() {
-		console.log('state: ', this.state);
 		const {
 			regionValue,
 			regions,
@@ -419,6 +447,7 @@ export class App extends Component {
 			types,
 			sortBy,
 			sortType,
+			searchValue,
 			filterPokemons,
 			searchPokemons,
 			allPokemons,
@@ -471,6 +500,8 @@ export class App extends Component {
 					sortBy={sortBy}
 					sortType={sortType}
 					sortSelect={this.handleChangeSort}
+					searchValue={searchValue}
+					searchChange={this.handleChangeSearch}
 				/>
 				<div className='pokemon-container'>
 					<div className='all-pokemons'>

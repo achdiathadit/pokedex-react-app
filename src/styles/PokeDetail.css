@@ -3,7 +3,7 @@ html {
 	--cardborder: #fff;
 	--pokenumber: hsl(228, 28%, 20%);
 	--info: #fff;
-	--bggradient: url('../assets/images/bg.png');
+	--bggradient: none;
 	--bgcolor: none;
 }
 
@@ -29,7 +29,7 @@ span {
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
-	border-radius: 1rem;
+	border-radius: 5px;
 	background: #ffffff78;
 	padding: 20px 20px;
 }
@@ -39,19 +39,20 @@ span {
 	height: 147px;
 	padding: 1rem 1rem;
 	margin: 0.3rem;
-	border-radius: 1.2rem;
+	border-radius: 5px;
 }
 
 .pokemon-name {
-	font-size: 22px;
+	font-size: 20px;
 	text-transform: capitalize;
+	font-weight: 700;
 }
 
 .pokemon-id {
 	color: var(--pokenumber);
 	font-family: 'IBM Plex Sans', sans-serif;
-	font-weight: 400;
-	font-size: 40px;
+	font-weight: 500;
+	font-size: 16px;
 }
 
 .info-container-data-header {
@@ -75,8 +76,9 @@ span {
 .info-container-headings {
 	font-family: 'IBM Plex Sans', sans-serif;
 	font-size: 18px;
-	font-weight: 500;
-	margin-top: 10px;
+	font-weight: 600;
+	margin-top: 30px;
+	margin-bottom: 10px;
 }
 
 .info-container-data-abilities {
@@ -96,9 +98,21 @@ span {
 	margin: 0px 0;
 	justify-content: space-between;
 	background-color: #ffffff40;
-	padding: 10px;
-	border-radius: 1rem;
+	border-radius: 5px;
 	margin-top: 0.5rem;
+}
+
+.info-container-stat {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	grid-gap: 0px 15px;
+	gap: 0px 15px;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #ffffff40;
+	border-radius: 5px;
+	padding: 20px;
 }
 
 .info-container-stat-columns {
@@ -139,11 +153,6 @@ span {
 	font-weight: 700;
 }
 
-.dialog-bg {
-	background-image: url('../assets/images/bg.png');
-	background-repeat: repeat;
-}
-
 .dialog-content {
 	font-family: 'IBM Plex Sans', sans-serif;
 	font-size: 21px;
@@ -167,6 +176,7 @@ span {
 	flex-direction: column;
 	height: -webkit-fill-available;
 	justify-content: space-evenly;
+	margin-left: 2rem;
 	gap: 3px 0px;
 }
 
@@ -182,6 +192,7 @@ span {
 .evolution-box {
 	display: flex;
 	gap: 0 0px;
+	margin-bottom: 20px;
 }
 
 .evolution-sub-box {
@@ -198,16 +209,15 @@ span {
 	cursor: pointer;
 }
 
-/* .evolution-img-div:hover {
+.evolution-img-div:hover {
 	transform: scale(1.05);
-} */
+}
 
 .evolution-img-div {
 	height: 113px;
 	width: 113px;
 	display: flex;
 	border-radius: 50%;
-	box-shadow: 0 5px 15px 4px rgb(0 0 0 / 30%);
 	align-items: center;
 	justify-content: center;
 	transition: all 0.35s;
@@ -216,7 +226,8 @@ span {
 
 .evolution-poke-name {
 	text-transform: capitalize;
-	margin: 10px 0;
+	font-size: 16px;
+	font-weight: 600;
 }
 
 .arrow-right {
@@ -225,7 +236,7 @@ span {
 }
 
 .MuiDialogContent-root:first-child {
-	padding: 10px;
+	padding: 30px;
 }
 
 .ability-list {
@@ -236,31 +247,15 @@ span {
 
 .ability-list-bg {
 	background-color: #ffffff40;
-	padding: 5px;
-	border-radius: 1rem;
-	margin-top: 0.5rem;
+	padding: 3px 20px;
+	border-radius: 5px;
 }
 
 .MuiTooltip-tooltip {
 	font-size: 15px !important;
 }
 
-.separator {
-	border: 0;
-	border-radius: 20px;
-	height: 80;
-	background-image: linear-gradient(
-		to bottom,
-		rgb(77, 77, 77),
-		rgb(77, 77, 77)
-	);
-	width: 1%;
-	margin-left: 2vw;
-	margin-right: auto;
-}
-
 .transparency-div {
-	background: #ffffff40;
 	height: 113px;
 	width: 113px;
 	border-radius: 50%;
@@ -271,8 +266,8 @@ span {
 
 .desc {
 	background-color: #ffffff40;
-	padding: 10px;
-	border-radius: 1rem;
+	padding: 20px;
+	border-radius: 5px;
 	font-size: 16px;
 }
 
@@ -284,18 +279,34 @@ span {
 	color: rgb(224, 61, 88);
 }
 
+.gender {
+	flex-direction: row;
+	display: flex;
+	gap: 10px;
+}
+
+.gender span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .dimensions {
 	text-align: center;
 }
 
+.dimensions span {
+	font-size: 16px;
+}
+
 .pokemon-genera {
 	padding: 3px 10px;
-	border-radius: 10px;
+	font-size: 16px;
+	font-weight: 600;
+	border-radius: 30px;
 	margin-top: 1.5vh;
 	text-align: center;
 }
-
-/* phone */
 
 @media screen and (max-width: 767px) {
 	.MuiDialog-paperFullWidth {
@@ -314,8 +325,10 @@ span {
 	}
 	.right-box {
 		margin-top: 20px;
+		margin-left: 0;
 		justify-content: center;
 		align-items: center;
+		padding: 10px;
 	}
 	.info-container-data {
 		justify-content: center;
@@ -337,7 +350,7 @@ span {
 	}
 	.info-container-headings {
 		text-align: center;
-		margin-top: 10px;
+		margin: 10px auto;
 	}
 	.evolution-box {
 		flex-direction: column;

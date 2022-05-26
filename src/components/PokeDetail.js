@@ -7,114 +7,117 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import '../styles/PokeDetail.css';
+import MaleIcon from '@mui/icons-material/Male';
+import FemaleIcon from '@mui/icons-material/Female';
 
 const fetchGenderRate = (genderRate) => {
 	switch (genderRate) {
 		case 0:
 			return (
-				<div>
-					<span className='gender-male'>
-						100% <i className='fa fa-mars'></i>
+				<div className='gender'>
+					<span>
+						100% <MaleIcon />
 					</span>
 					<span>
 						{' '}
-						0% <i className='fa fa-venus'></i>
+						0% <FemaleIcon />
 					</span>
 				</div>
 			);
 		case 1:
 			return (
-				<div>
+				<div className='gender'>
 					<span>
-						87.5% <i className='fa fa-mars'></i>
+						87.5% <MaleIcon />
 					</span>
 					<span>
 						{' '}
-						12.5% <i className='fa fa-venus'></i>
+						12.5% <FemaleIcon />
 					</span>
 				</div>
 			);
 		case 2:
 			return (
-				<div>
+				<div className='gender'>
 					<span>
-						75% <i className='fa fa-mars'></i>
+						75% <MaleIcon />
 					</span>
 					<span>
 						{' '}
-						25% <i className='fa fa-venus'></i>
+						25% <FemaleIcon />
 					</span>
 				</div>
 			);
 		case 3:
 			return (
-				<div>
+				<div className='gender'>
 					<span>
-						62.5% <i className='fa fa-mars'></i>
+						62.5% <MaleIcon />
 					</span>
 					<span>
 						{' '}
-						37.5% <i className='fa fa-venus'></i>
+						37.5% <FemaleIcon />
 					</span>
 				</div>
 			);
 		case 4:
 			return (
-				<div>
+				<div className='gender'>
 					<span>
-						50% <i className='fa fa-mars'></i>
+						50% <MaleIcon />
 					</span>
 					<span>
 						{' '}
-						50% <i className='fa fa-venus'></i>
+						50% <FemaleIcon />
 					</span>
 				</div>
 			);
 		case 5:
 			return (
-				<div>
+				<div className='gender'>
 					<span>
-						37.5% <i className='fa fa-mars'></i>
+						37.5% <MaleIcon />
 					</span>
 					<span>
 						{' '}
-						62.5% <i className='fa fa-venus'></i>
+						62.5% <FemaleIcon />
 					</span>
 				</div>
 			);
 		case 6:
 			return (
-				<div>
+				<div className='gender'>
 					<span>
-						25% <i className='fa fa-mars'></i>
+						25% <MaleIcon />
 					</span>
 					<span>
 						{' '}
-						75% <i className='fa fa-venus'></i>
+						75% <FemaleIcon />
 					</span>
 				</div>
 			);
 		case 7:
 			return (
-				<div>
+				<div className='gender'>
 					<span>
-						12.5% <i className='fa fa-mars'></i>
+						12.5% <MaleIcon />
 					</span>
 					<span>
 						{' '}
-						87.5% <i className='fa fa-venus'></i>
+						87.5% <FemaleIcon />
 					</span>
 				</div>
 			);
 		case 8:
 			return (
-				<div>
+				<div className='gender'>
 					<span>
-						0% <i className='fa fa-mars'></i>
+						0% <MaleIcon />
 					</span>
 					<span>
 						{' '}
-						100% <i className='fa fa-venus'></i>
+						100% <FemaleIcon />
 					</span>
 				</div>
 			);
@@ -148,7 +151,6 @@ const PokeDetail = (props) => {
 				onBackdropClick={props.cancel}
 				fullWidth
 				maxWidth='md'
-				className='dialog-bg noselect'
 			>
 				<DialogContent
 					style={{
@@ -193,18 +195,24 @@ const PokeDetail = (props) => {
 							</div>
 							<div className='dimensions'>
 								<p>
-									<span className='info-container-headings'>Height</span>{' '}
-									{`${props.height / 10} m/${`${Math.floor(
-										(props.height / 10) * 3.28
-									)}'${Math.round(
-										(((props.height / 10) * 3.28) % 1) * 12
-									)}"`} `}{' '}
+									<span className='info-container-headings'>Height</span>
+									<br></br>
+									<span>
+										{`${props.height / 10} m/${`${Math.floor(
+											(props.height / 10) * 3.28
+										)}'${Math.round(
+											(((props.height / 10) * 3.28) % 1) * 12
+										)}"`} `}{' '}
+									</span>
 								</p>
 								<p>
 									<span className='info-container-headings'>Weight</span>
-									{` ${(props.weight / 10).toFixed(1)} kg/${(
-										props.weight * 0.2205
-									).toFixed(1)} lbs`}
+									<br></br>
+									<span>
+										{` ${(props.weight / 10).toFixed(1)} kg/${(
+											props.weight * 0.2205
+										).toFixed(1)} lbs`}
+									</span>
 								</p>
 							</div>
 							<div className='gender-container'>
@@ -213,89 +221,76 @@ const PokeDetail = (props) => {
 									: fetchGenderRate(props.genderRate)}
 							</div>
 						</div>
-						<div className='info-container-data'>
-							<div className='right-box'>
-								<div>
-									<div className='info-container-headings'>About</div>
-									<div className='desc'>{props.description}</div>
-								</div>
-								<div className='info-container-data-header'>
-									<div className='info-container-data-abilities'>
-										<div className='info-container-headings'>Abilities</div>
-										<div className='ability-list-bg'>
-											<ul className='ability-list'>
-												{props.abilities.map((ability) => (
-													<li key={ability}>
-														<div className='ability'>{ability}&nbsp;</div>
-													</li>
-												))}
-											</ul>
+						<div className='right-box'>
+							<div>
+								<div className='info-container-headings'>About</div>
+								<div className='desc'>{props.description}</div>
+							</div>
+							<div className='info-container-headings'>Abilities</div>
+							<div className='ability-list-bg'>
+								<ul className='ability-list'>
+									{props.abilities.map((ability) => (
+										<li key={ability}>
+											<div className='ability'>{ability}&nbsp;</div>
+										</li>
+									))}
+								</ul>
+							</div>
+							<div>
+								<div className='info-container-headings'>Base Stats</div>
+								<div className='info-container-stat'>
+									{props.stats.map((stat) => (
+										<div
+											key={stat['stat-name']}
+											className='info-container-stat-columns'
+										>
+											<div className='info-container-stat-columns-name'>
+												{stat['stat-name']}
+											</div>
+											<div className='info-container-stat-columns-val'>
+												{stat['stat-val']}
+											</div>
 										</div>
-									</div>
+									))}
 								</div>
-								<div>
-									<div className='info-container-headings stats'>
-										Base Stats
-									</div>
-									<div className='info-container-data'>
-										{props.stats.map((stat) => (
-											<div
-												key={stat['stat-name']}
-												className='info-container-stat-columns'
-											>
-												<div className='info-container-stat-columns-name'>
-													{stat['stat-name']}
-												</div>
-												<div className='info-container-stat-columns-val'>
-													{stat['stat-val']}
-												</div>
-											</div>
-										))}
-									</div>
-								</div>
-								<div>
-									<div className='info-container-headings'>Evolution</div>
-									<div className='evolution-box'>
-										{props.evoChain.map((value, index, elements) => (
-											<div className='evolution-sub-box'>
-												<div>
-													<div
-														className='evolution-img-div'
-														style={{
-															background: `linear-gradient(${finalColor[0]}, ${finalColor[1]})`,
-														}}
-													>
-														<div className='transparency-div'>
-															<LazyLoadImage
-																alt='image-pokemon'
-																height={80}
-																width={80}
-																src={elements[index].image_url}
-																visibleByDefault={false}
-																delayMethod={'debounce'}
-																effect='blur'
-																className='evo_img'
-																onClick={() =>
-																	props.evolutionPokemon(
-																		props.number,
-																		elements[index].species_name,
-																		props.category,
-																		elements[index].image_url
-																	)
-																}
-															/>
-														</div>
-													</div>
-													<div className='evolution-poke-name'>
-														{elements[index].species_name}
+							</div>
+							<div>
+								<div className='info-container-headings'>Evolution</div>
+								<div className='evolution-box'>
+									{props.evoChain.map((value, index, elements) => (
+										<div className='evolution-sub-box'>
+											<div>
+												<div className='evolution-img-div'>
+													<div className='transparency-div'>
+														<LazyLoadImage
+															alt='image-pokemon'
+															height={80}
+															width={80}
+															src={elements[index].image_url}
+															visibleByDefault={false}
+															delayMethod={'debounce'}
+															effect='blur'
+															className='evo_img'
+															onClick={() =>
+																props.evolutionPokemon(
+																	props.number,
+																	elements[index].species_name,
+																	props.category,
+																	elements[index].image_url
+																)
+															}
+														/>
 													</div>
 												</div>
-												{elements[index + 1] && (
-													<DoubleArrowIcon className='arrow-right'></DoubleArrowIcon>
-												)}
+												<div className='evolution-poke-name'>
+													{elements[index].species_name}
+												</div>
 											</div>
-										))}
-									</div>
+											{elements[index + 1] && (
+												<DoubleArrowIcon className='arrow-right'></DoubleArrowIcon>
+											)}
+										</div>
+									))}
 								</div>
 							</div>
 						</div>

@@ -1,7 +1,5 @@
 html {
 	--filterHeading: #000;
-	--selectBg: #fff;
-	--selectText: #000;
 }
 
 .filter-container {
@@ -20,11 +18,27 @@ html {
 }
 
 .filter-items > input {
-	width: 10vw;
+	width: 15vw;
 	margin-top: 5px;
-	background-color: var(--selectBg);
-	color: var(--selectText);
-	border: 1px solid var(--selectText);
+	background-color: rgb(236, 236, 236);
+	border: none;
+	border-radius: 5px;
+	height: 2rem;
+	padding: 2px;
+	font-family: 'IBM Plex Sans', sans-serif;
+	font-size: 16px;
+}
+
+.filter-items > select {
+	width: 15vw;
+	margin-top: 5px;
+	background-color: rgb(236, 236, 236);
+	border: none;
+	border-radius: 5px;
+	height: 2.5rem;
+	padding: 2px;
+	font-family: 'IBM Plex Sans', sans-serif;
+	font-size: 16px;
 }
 
 .filter-items > div,
@@ -33,6 +47,9 @@ label {
 }
 
 @media screen and (max-width: 767px) {
+	.loading-gif {
+		width: 35%;
+	}
 	.filter-container {
 		display: flex;
 		flex-direction: column;
@@ -42,6 +59,7 @@ label {
 		gap: 2vh 2vw;
 		justify-content: center;
 	}
+	select,
 	.filter-items > input {
 		width: 40vw;
 	}

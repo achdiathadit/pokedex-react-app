@@ -26,6 +26,10 @@ html {
 	--info: #fff;
 }
 
+.poke-name > h3 {
+	text-transform: capitalize;
+}
+
 .thumbnail-container {
 	display: flex;
 	flex-direction: column;
