@@ -183,6 +183,130 @@ export class App extends Component {
 		}
 	};
 
+	closeDialog = () => {
+		this.setState({
+			showInfo: false,
+		});
+	};
+
+	fetchEvoDetails = async (url) => {
+		const response = await axios
+			.get(url)
+			.catch((err) => console.log('Error:', err));
+
+		const evoChain = [];
+		let evoData = response.data.chain;
+
+		do {
+			const evoDetails = evoData['evolution_details'][0];
+
+			evoChain.push({
+				species_name: evoData.species.name,
+				min_level: !evoDetails ? 1 : evoDetails.min_level,
+				trigger_name: !evoDetails ? null : evoDetails.trigger.name,
+				item: !evoDetails ? null : evoDetails.item,
+			});
+
+			evoData = evoData['evolves_to'][0];
+		} while (!!evoData && evoData.hasOwnProperty('evolves_to'));
+
+		this.fetchEvoImages(evoChain);
+	};
+
+	fetchEvoImages = async (evoChainArr) => {
+		for (let i = 0; i < evoChainArr.length; i++) {
+			const response = await axios
+				.get(`https://pokeapi.co/api/v2/pokemon/${evoChainArr[i].species_name}`)
+				.catch((err) => console.log('Error:', err));
+			response.data.sprites.other.dream_world.front_default
+				? (evoChainArr[i]['image_url'] =
+						response.data.sprites.other.dream_world.front_default)
+				: (evoChainArr[i]['image_url'] =
+						response.data.sprites.other['official-artwork'].front_default);
+		}
+
+		this.setState({
+			evoChain: evoChainArr,
+		});
+	};
+
+	fetchPokemonData = async (number, pokemon, category, imageURL) => {
+		const response = await axios
+			.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+			.catch((err) => console.log('Error:', err));
+
+		const statistics = [],
+			abs = [];
+		const id = response.data.id;
+
+		for (let i = 0; i < response.data.abilities.length; i++) {
+			abs.push(response.data.abilities[i].ability.name);
+		}
+
+		for (let j = 0; j < response.data.stats.length; j++) {
+			const Obj = {};
+			Obj['stat-name'] = response.data.stats[j].stat.name;
+			Obj['stat-val'] = response.data.stats[j].base_stat;
+			statistics.push(Obj);
+		}
+
+		this.setState({
+			weight: response.data.weight,
+			height: response.data.height,
+			category,
+			pokeNumber: id,
+			imageURL,
+			pokeName: pokemon,
+			showInfo: true,
+			stats: statistics,
+			abilities: abs,
+		});
+
+		this.setState({
+			evoChain: [],
+			genderRate: '',
+			genera: '',
+		});
+		this.fetchPokemonDescription(pokemon);
+	};
+
+	fetchPokemonDescription = async (pokemon_name) => {
+		const { description } = this.state;
+		let genera = '';
+
+		const response = await axios
+			.get(`https://pokeapi.co/api/v2/pokemon-species/${pokemon_name}`)
+			.catch((err) => console.log('Error:', err));
+		this.fetchEvoDetails(response.data.evolution_chain.url);
+
+		try {
+			for (let i = 0; i < response.data.flavor_text_entries.length - 1; i++) {
+				if (response.data.flavor_text_entries[i].language.name === 'en') {
+					this.state.description =
+						response.data.flavor_text_entries[i].flavor_text;
+					break;
+				}
+			}
+
+			for (let j = 0; j < response.data.genera.length; j++) {
+				if (response.data.genera[j].language.name === 'en') {
+					genera = response.data.genera[j].genus;
+					break;
+				}
+			}
+
+			this.setState({
+				description: description,
+				genderRate: response.data.gender_rate,
+				genera,
+			});
+		} catch (e) {
+			this.setState({
+				description: 'Description not found',
+			});
+		}
+	};
+
 	handleChangeRegion = (event) => {
 		const { regions } = this.state;
 		for (let i = 0; i < regions.length; i++) {
@@ -299,10 +423,41 @@ export class App extends Component {
 			allPokemons,
 			isSearch,
 			isFilter,
+			showInfo,
+			abilities,
+			height,
+			weight,
+			category,
+			genera,
+			genderRate,
+			stats,
+			imageURL,
+			pokeName,
+			pokeNumber,
+			description,
+			evoChain,
 		} = this.state;
 		return (
 			<div className='app-container'>
-				<PokeDetail />
+				{this.state.showInfo && (
+					<PokeDetail
+						open={showInfo}
+						abilities={abilities}
+						height={height}
+						weight={weight}
+						category={category}
+						genera={genera}
+						genderRate={genderRate}
+						stats={stats}
+						img={imageURL}
+						name={pokeName}
+						number={pokeNumber}
+						description={description}
+						evoChain={evoChain}
+						cancel={() => this.closeDialog()}
+						evolutionPokemon={this.fetchPokemonData}
+					></PokeDetail>
+				)}
 				<Header />
 				<FilterBar
 					regionValue={regionValue}
